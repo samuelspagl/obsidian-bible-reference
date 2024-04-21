@@ -1,0 +1,664 @@
+{
+    "books": [
+        {
+            "book": {
+                "en": "Genesis",
+                "de": "1. Mose (Genesis)"
+            },
+            "aliases": [
+                "GEN"
+            ],
+            "chapters": 50
+        },
+        {
+            "book": {
+                "en": "Exodus",
+                "de": "2. Mose (Exodus)"
+            },
+            "aliases": [
+                "EXO"
+            ],
+            "chapters": 40
+        },
+        {
+            "book": {
+                "en": "Leviticus",
+                "de": "3. Mose (Leviticus)"
+            },
+            "aliases": [
+                "LEV"
+            ],
+            "chapters": 27
+        },
+        {
+            "book": {
+                "en": "Numbers",
+                "de": "4. Mose (Numeri)"
+            },
+            "aliases": [
+                "NUM"
+            ],
+            "chapters": 36
+        },
+        {
+            "book": {
+                "en": "Deuteronomy",
+                "de": "5. Mose (Deuteronomium)"
+            },
+            "aliases": [
+                "DEU"
+            ],
+            "chapters": 34
+        },
+        {
+            "book": {
+                "en": "Joshua",
+                "de": "Josua"
+            },
+            "aliases": [
+                "JOS"
+            ],
+            "chapters": 24
+        },
+        {
+            "book": {
+                "en": "Judges",
+                "de": "Richter"
+            },
+            "aliases": [
+                "JDG"
+            ],
+            "chapters": 21
+        },
+        {
+            "book": {
+                "en": "Ruth",
+                "de": "Ruth"
+            },
+            "aliases": [
+                "RUT"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "1st Samuel",
+                "de": "1. Samuel"
+            },
+            "aliases": [
+                "1SA"
+            ],
+            "chapters": 31
+        },
+        {
+            "book": {
+                "en": "2nd Samuel",
+                "de": "2. Samuel"
+            },
+            "aliases": [
+                "2SA"
+            ],
+            "chapters": 24
+        },
+        {
+            "book": {
+                "en": "1st Kings",
+                "de": "1. Könige"
+            },
+            "aliases": [
+                "1KI"
+            ],
+            "chapters": 22
+        },
+        {
+            "book": {
+                "en": "2nd Kings",
+                "de": "2. Könige"
+            },
+            "aliases": [
+                "2KI"
+            ],
+            "chapters": 25
+        },
+        {
+            "book": {
+                "en": "1st Chronicles",
+                "de": "1. Chronik"
+            },
+            "aliases": [
+                "1CH"
+            ],
+            "chapters": 29
+        },
+        {
+            "book": {
+                "en": "2nd Chronicles",
+                "de": "2. Chronik"
+            },
+            "aliases": [
+                "2CH"
+            ],
+            "chapters": 36
+        },
+        {
+            "book": {
+                "en": "Ezra",
+                "de": "Esra"
+            },
+            "aliases": [
+                "EZR"
+            ],
+            "chapters": 10
+        },
+        {
+            "book": {
+                "en": "Nehemiah",
+                "de": "Nehemia"
+            },
+            "aliases": [
+                "NEH"
+            ],
+            "chapters": 13
+        },
+        {
+            "book": {
+                "en": "Esther",
+                "de": "Ester"
+            },
+            "aliases": [
+                "EST"
+            ],
+            "chapters": 10
+        },
+        {
+            "book": {
+                "en": "Job",
+                "de": "Hiob"
+            },
+            "aliases": [
+                "JOB"
+            ],
+            "chapters": 42
+        },
+        {
+            "book": {
+                "en": "Psalms",
+                "de": "Psalm"
+            },
+            "aliases": [
+                "PSA"
+            ],
+            "chapters": 150
+        },
+        {
+            "book": {
+                "en": "Proverbs",
+                "de": "Sprichwörter"
+            },
+            "aliases": [
+                "PRO"
+            ],
+            "chapters": 31
+        },
+        {
+            "book": {
+                "en": "Ecclesiastes",
+                "de": "Prediger"
+            },
+            "aliases": [
+                "ECC"
+            ],
+            "chapters": 12
+        },
+        {
+            "book": {
+                "en": "Song of Songs",
+                "de": "Hohe Lied der Liebe"
+            },
+            "aliases": [
+                "SNG"
+            ],
+            "chapters": 8
+        },
+        {
+            "book": {
+                "en": "Isaiah",
+                "de": "Jesaja"
+            },
+            "aliases": [
+                "ISA"
+            ],
+            "chapters": 66
+        },
+        {
+            "book": {
+                "en": "Jeremiah",
+                "de": "Jeremia"
+            },
+            "aliases": [
+                "JER"
+            ],
+            "chapters": 52
+        },
+        {
+            "book": {
+                "en": "Lamentations",
+                "de": "Klagelieder"
+            },
+            "aliases": [
+                "LAM"
+            ],
+            "chapters": 5
+        },
+        {
+            "book": {
+                "en": "Ezekiel",
+                "de": "Ezechiel"
+            },
+            "aliases": [
+                "EZK"
+            ],
+            "chapters": 48
+        },
+        {
+            "book": {
+                "en": "Daniel",
+                "de": "Daniel"
+            },
+            "aliases": [
+                "DAN"
+            ],
+            "chapters": 12
+        },
+        {
+            "book": {
+                "en": "Hosea",
+                "de": "Hosea"
+            },
+            "aliases": [
+                "HOS"
+            ],
+            "chapters": 14
+        },
+        {
+            "book": {
+                "en": "Joel",
+                "de": "Joel"
+            },
+            "aliases": [
+                "JOL"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "Amos",
+                "de": "Amos"
+            },
+            "aliases": [
+                "AMO"
+            ],
+            "chapters": 9
+        },
+        {
+            "book": {
+                "en": "Obadiah",
+                "de": "Obadja"
+            },
+            "aliases": [
+                "OBA"
+            ],
+            "chapters": 1
+        },
+        {
+            "book": {
+                "en": "Jonah",
+                "de": "Jona"
+            },
+            "aliases": [
+                "JON"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "Micah",
+                "de": "Micha"
+            },
+            "aliases": [
+                "MIC"
+            ],
+            "chapters": 7
+        },
+        {
+            "book": {
+                "en": "Nahum",
+                "de": "Nahum"
+            },
+            "aliases": [
+                "NAM"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "Habakkuk",
+                "de": "Habakuk"
+            },
+            "aliases": [
+                "HAB"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "Zephaniah",
+                "de": "Zefanja"
+            },
+            "aliases": [
+                "ZEP"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "Haggai",
+                "de": "Haggai"
+            },
+            "aliases": [
+                "HAG"
+            ],
+            "chapters": 2
+        },
+        {
+            "book": {
+                "en": "Zechariah",
+                "de": "Sacharja"
+            },
+            "aliases": [
+                "ZEC"
+            ],
+            "chapters": 14
+        },
+        {
+            "book": {
+                "en": "Malachi",
+                "de": "Maleachi"
+            },
+            "aliases": [
+                "MAL"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "Matthew",
+                "de": "Matthäus"
+            },
+            "aliases": [
+                "MAT"
+            ],
+            "chapters": 28
+        },
+        {
+            "book": {
+                "en": "Mark",
+                "de": "Markus"
+            },
+            "aliases": [
+                "MRK"
+            ],
+            "chapters": 16
+        },
+        {
+            "book": {
+                "en": "Luke",
+                "de": "Lukas"
+            },
+            "aliases": [
+                "LUK"
+            ],
+            "chapters": 24
+        },
+        {
+            "book": {
+                "en": "John",
+                "de": "Johannes"
+            },
+            "aliases": [
+                "JHN"
+            ],
+            "chapters": 21
+        },
+        {
+            "book": {
+                "en": "Acts",
+                "de": "Apostelgeschichte"
+            },
+            "aliases": [
+                "ACT"
+            ],
+            "chapters": 28
+        },
+        {
+            "book": {
+                "en": "Romans",
+                "de": "Römer"
+            },
+            "aliases": [
+                "ROM"
+            ],
+            "chapters": 16
+        },
+        {
+            "book": {
+                "en": "1st Corinthians",
+                "de": "1. Korinther"
+            },
+            "aliases": [
+                "1CO"
+            ],
+            "chapters": 16
+        },
+        {
+            "book": {
+                "en": "2nd Corinthians",
+                "de": "2. Korinther"
+            },
+            "aliases": [
+                "2CO"
+            ],
+            "chapters": 13
+        },
+        {
+            "book": {
+                "en": "Galatians",
+                "de": "Galater"
+            },
+            "aliases": [
+                "GAL"
+            ],
+            "chapters": 6
+        },
+        {
+            "book": {
+                "en": "Ephesians",
+                "de": "Epheser"
+            },
+            "aliases": [
+                "EPH"
+            ],
+            "chapters": 6
+        },
+        {
+            "book": {
+                "en": "Philippians",
+                "de": "Philipper"
+            },
+            "aliases": [
+                "PHP"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "Colossians",
+                "de": "Kolosser"
+            },
+            "aliases": [
+                "COL"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "1st Thessalonians",
+                "de": "1. Thessalonicher"
+            },
+            "aliases": [
+                "1TH"
+            ],
+            "chapters": 5
+        },
+        {
+            "book": {
+                "en": "2nd Thessalonians",
+                "de": "2. Thessalonicher"
+            },
+            "aliases": [
+                "2TH"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "1st Timothy",
+                "de": "1. Timotheus"
+            },
+            "aliases": [
+                "1TI"
+            ],
+            "chapters": 6
+        },
+        {
+            "book": {
+                "en": "2nd Timothy",
+                "de": "2. Timotheus"
+            },
+            "aliases": [
+                "2TI"
+            ],
+            "chapters": 4
+        },
+        {
+            "book": {
+                "en": "Titus",
+                "de": "Titus"
+            },
+            "aliases": [
+                "TIT"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "Philemon",
+                "de": "Philemon"
+            },
+            "aliases": [
+                "PHM"
+            ],
+            "chapters": 1
+        },
+        {
+            "book": {
+                "en": "Hebrews",
+                "de": "Hebräer"
+            },
+            "aliases": [
+                "HEB"
+            ],
+            "chapters": 13
+        },
+        {
+            "book": {
+                "en": "James",
+                "de": "Jakobus"
+            },
+            "aliases": [
+                "JAS"
+            ],
+            "chapters": 5
+        },
+        {
+            "book": {
+                "en": "1st Peter",
+                "de": "1. Petrus"
+            },
+            "aliases": [
+                "1PE"
+            ],
+            "chapters": 5
+        },
+        {
+            "book": {
+                "en": "2nd Peter",
+                "de": "2. Petrus"
+            },
+            "aliases": [
+                "2PE"
+            ],
+            "chapters": 3
+        },
+        {
+            "book": {
+                "en": "1st John",
+                "de": "1. Johannes"
+            },
+            "aliases": [
+                "1JN"
+            ],
+            "chapters": 5
+        },
+        {
+            "book": {
+                "en": "2nd John",
+                "de": "2. Johannes"
+            },
+            "aliases": [
+                "2JN"
+            ],
+            "chapters": 1
+        },
+        {
+            "book": {
+                "en": "3rd John",
+                "de": "3. Johannes"
+            },
+            "aliases": [
+                "3JN"
+            ],
+            "chapters": 1
+        },
+        {
+            "book": {
+                "en": "Jude",
+                "de": "Judas"
+            },
+            "aliases": [
+                "JUD"
+            ],
+            "chapters": 1
+        },
+        {
+            "book": {
+                "en": "Revelation",
+                "de": "Offenbarung"
+            },
+            "aliases": [
+                "REV"
+            ],
+            "chapters": 22
+        }
+    ]
+}

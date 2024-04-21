@@ -1,14 +1,45 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, DropdownComponent, Editor, FuzzySuggestModal, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, SuggestModal } from 'obsidian';
 
+import { getVerse } from 'youversion-api/verse';
 // Remember to rename these classes and interfaces!
 
 interface MyPluginSettings {
 	mySetting: string;
+	language: string;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
+	mySetting: 'default',
+	language: "en"
 }
+
+interface BibleBook{
+	book: {[key: string]: string}
+	aliases: [String]
+	chapters: number
+}
+
+interface Book {
+	title: string;
+	author: string;
+  }
+  
+const ALL_BOOKS = [
+{
+	title: "How to Take Smart Notes",
+	author: "Sönke Ahrens",
+},
+{
+	title: "Thinking, Fast and Slow",
+	author: "Daniel Kahneman",
+},
+{
+	title: "Deep Work",
+	author: "Cal Newport",
+},
+];
+
+const BIBLE_INFO: BibleBook[] = require('./youversion-api/resources/books.json').books;
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
@@ -32,38 +63,44 @@ export default class MyPlugin extends Plugin {
 		this.addCommand({
 			id: 'open-sample-modal-simple',
 			name: 'Open sample modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
+			editorCallback: (editor: Editor) => {
+				new SampleModal(this.app, editor, this.settings.language).open();
 			}
 		});
+
+		this.addCommand({
+			id: "another-sample-modal",
+			name: "Another sample modal with selection",
+			editorCallback: (editor: Editor) => {
+				new ExampleModal(this.app, editor, this.settings.language).open()
+			}
+		})
+
+		this.addCommand({
+			id: "another-sample-modal-2",
+			name: "Another sample modal with selection ZZZ",
+			editorCallback: (editor: Editor) => {
+				new ExampleModal2(this.app).open()
+			}
+		})
+
+
 		// This adds an editor command that can perform some operation on the current editor instance
 		this.addCommand({
 			id: 'sample-editor-command',
 			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
+			editorCallback: async (editor: Editor, view: MarkdownView) => {
 				console.log(editor.getSelection());
-				editor.replaceSelection('Sample Editor Command');
+				const book = "John"
+				const chapter = "3"
+				const verse = "16"
+				const bible = "KJV"
+				const verses = await getVerse("John", "3", "16", "KJV")
+				const text = `> [!Lehrtext] ${book} ${chapter}, ${verse} (${bible})\n>#${book} #${book}-${chapter}\n>\n> ${verses.passage}\n\n${verses.citation}`
+				editor.replaceSelection(text);
 			}
 		});
 		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-sample-modal-complex',
-			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
-
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
-				}
-			}
-		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new SampleSettingTab(this.app, this));
@@ -92,20 +129,86 @@ export default class MyPlugin extends Plugin {
 }
 
 class SampleModal extends Modal {
-	constructor(app: App) {
+	editor: Editor
+	language: string
+	constructor(app: App, editor: Editor, language: string) {
 		super(app);
+		this.editor = editor,
+		this.language = language
 	}
 
-	onOpen() {
+	async onOpen() {
 		const {contentEl} = this;
-		contentEl.setText('Woah!');
+		const book = "John"
+		const chapter = "3"
+		const verse = "16"
+		const bible = "KJV"
+		const verses = await getVerse("John", "3", "16", "KJV")
+		const text = `> [!Lehrtext] ${book} ${chapter}, ${verse} (${bible})\n>#${book} #${book}-${chapter}\n\n> ${verses}`
+		contentEl.setText(text);
 	}
 
-	onClose() {
+	async onClose() {
 		const {contentEl} = this;
+		const book = "John"
+		const chapter = "3"
+		const verse = "16"
+		const bible = "KJV"
+		const verses = await getVerse("John", "3", "16", "KJV")
+		const text = `> [!Lehrtext] ${book} ${chapter}, ${verse} (${bible})\n>#${book} #${book}-${chapter}\n>\n> ${verses.passage}\n\n${verses.citation}`
 		contentEl.empty();
+		this.editor.replaceSelection(text)
 	}
 }
+
+export class ExampleModal2 extends SuggestModal<Book> {
+	// Returns all available suggestions.
+	getSuggestions(query: string): Book[] {
+	  return ALL_BOOKS.filter((book) =>
+		book.title.toLowerCase().includes(query.toLowerCase())
+	  );
+	}
+  
+	// Renders each suggestion item.
+	renderSuggestion(book: Book, el: HTMLElement) {
+	  el.createEl("div", { text: book.title });
+	  el.createEl("small", { text: book.author });
+	}
+  
+	// Perform action on the selected suggestion.
+	onChooseSuggestion(book: Book, evt: MouseEvent | KeyboardEvent) {
+	  new Notice(`Selected ${book.title}`);
+	}
+  }
+
+
+class ExampleModal extends SuggestModal<BibleBook> {
+	editor: Editor
+	language: string
+	constructor(app: App, editor: Editor, language: string) {
+		super(app);
+		this.editor = editor,
+		this.language = language
+	}
+	// Returns all available suggestions.
+	getSuggestions(query: string): BibleBook[] {
+		console.log(BIBLE_INFO)
+	  return BIBLE_INFO.filter((book: BibleBook) =>
+	  	book.book[this.language].toLowerCase().includes(query.toLowerCase())
+	  );
+	}
+  
+	// Renders each suggestion item.
+	renderSuggestion(book: any, el: HTMLElement) {
+	  el.createEl("div", { text: book[this.language] });
+	  el.createEl("small", { text: `${book.book[this.language]} - ${book.aliases[0]}` });
+	}
+  
+	// Perform action on the selected suggestion.
+	onChooseSuggestion(book: BibleBook, evt: MouseEvent | KeyboardEvent) {
+	  new Notice(`Selected ${book.aliases}`);
+	}
+  }
 
 class SampleSettingTab extends PluginSettingTab {
 	plugin: MyPlugin;
@@ -130,5 +233,15 @@ class SampleSettingTab extends PluginSettingTab {
 					this.plugin.settings.mySetting = value;
 					await this.plugin.saveSettings();
 				}));
-	}
+		new Setting(containerEl)
+			.setName('Language')
+			.addDropdown(dropDown => {
+				dropDown.addOption('en', 'English');
+				dropDown.addOption('de', 'Deutsch');
+				dropDown.onChange(async (value) =>	{
+					this.plugin.settings.language = value;
+					await this.plugin.saveSettings();
+				});
+			});
+		}
 }
