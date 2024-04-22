@@ -22,16 +22,12 @@ export async function getVerse( book: string, chapter: string, verses: string, v
 
     if (!book) return apiError(400, "Missing field 'book'");
 
-    let versionFinder: any = {
-        version: Object.keys(versions)[Object.keys(versions).indexOf(version.toLocaleString().toLocaleUpperCase())] ??= "NIV",
-        id: versions[version.toString().toLocaleUpperCase()] ??= 1,
-    }
+    // let versionFinder: any = {
+    //     version: Object.keys(versions)[Object.keys(versions).indexOf(version.toLocaleString().toLocaleUpperCase())] ??= "NIV",
+    //     id: versions[version.toString().toLocaleUpperCase()] ??= 1,
+    // }
 
-    let bookFinder = bookList.books.find((o: bookType) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookType) => o.aliases.includes(book.toUpperCase()));
-
-    if (!bookFinder) return apiError(400, `Could not find book '${book}' by name or alias.`)
-
-    let URL = `${baseURL}/${versionFinder.id}/${bookFinder.aliases[0]}.${chapter}.${verses}`;
+    let URL = `${baseURL}/${version}/${book}.${chapter}.${verses}`;
     console.log(URL)
     try {
         const response = await requestUrl(URL);
@@ -41,7 +37,6 @@ export async function getVerse( book: string, chapter: string, verses: string, v
 
         const lastVerse = $(".ChapterContent_reader__UZc2K").eq(-1).text();
         if (lastVerse) return apiError(400, "Verse not found");
-        if (chapter > bookFinder.chapters) return apiError(400, "Chapter not found.");
 
         const versesArray: Array<String> = [];
         const citationsArray: Array<String> = [];
