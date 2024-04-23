@@ -1,3 +1,7 @@
+// Thanks to Glowstudent for providing a nice idea of how
+// to fetch data from YouVersion.
+// His repository https://github.com/Glowstudent777/YouVersion-API-NPM was the 
+// baseline for the plugin.
 import * as cheerio from 'cheerio';
 import { requestUrl, RequestUrlParam } from 'obsidian';
 
