@@ -11,59 +11,49 @@ interface bookType {
     chapters: Number;
 }
 
-export async function getVerse( book: string, chapter: string, verses: string, version: string = "NIV") {
+class ApiError{
+    code: number
+    message: string
+    constructor(code: number, message: string){
+        this.code = code
+        this.message = message
+    }
+}
 
-    const versions = require('./versions.json');
-    const bookList = require('./resources/books.json');
+export async function getVerse( book: string, chapter: string, verses: string, version: string = "NIV") {
     const baseURL = "https://www.bible.com/bible";
 
-    function apiError(code: number, message: string) {
-        return {
-            "code": code,
-            "message": message
-        };
-    }
-
-    if (!book) return apiError(400, "Missing field 'book'");
-
-    // let versionFinder: any = {
-    //     version: Object.keys(versions)[Object.keys(versions).indexOf(version.toLocaleString().toLocaleUpperCase())] ??= "NIV",
-    //     id: versions[version.toString().toLocaleUpperCase()] ??= 1,
-    // }
-
+    if (!book) throw new ApiError(400, "Missing field 'book'");
     let URL = `${baseURL}/${version}/${book}.${chapter}.${verses}`;
-    console.log(URL)
-    try {
-        const response = await requestUrl(URL);
-        console.log(response.status)
-        console.log(response.text)
-        const $ = cheerio.load(response.text);
 
-        const lastVerse = $(".ChapterContent_reader__UZc2K").eq(-1).text();
-        if (lastVerse) return apiError(400, "Verse not found");
+    const response = await requestUrl(URL);
+    if (!(response.status >= 200 && response.status <= 301)) throw new ApiError(response.status, response.text)
+    const $ = cheerio.load(response.text);
 
-        const versesArray: Array<String> = [];
-        const citationsArray: Array<String> = [];
-        const wrapper = $(".text-19");
-        const citationWrapper = $(".text-text-light");
+    const lastVerse = $(".ChapterContent_reader__UZc2K").eq(-1).text();
+    if (lastVerse) throw new ApiError(400, "Verse not found");
 
-        await wrapper.each((i, p) => {
-            let unformattedVerse = $(p).eq(0).text();
-            let formattedVerse = unformattedVerse.replace(/\n/g, ' ');
-            versesArray.push(formattedVerse)
-        })
+    const versesArray: Array<string> = [];
+    const citationsArray: Array<string> = [];
+    const wrapper = $(".text-19");
+    const citationWrapper = $(".text-text-light");
 
-        await citationWrapper.each((i, p) => {
-            let citation = $(p).eq(0).text();
+    wrapper.each((i, p) => {
+        let unformattedVerse = $(p).eq(0).text();
+        let formattedVerse = unformattedVerse.replace(/\n/g, ' ');
+        versesArray.push(formattedVerse)
+    })
 
-            citationsArray.push(citation)
-        })
+    citationWrapper.each((i, p) => {
+        let citation = $(p).eq(0).text();
 
-        return {
-            citation: citationsArray[0],
-            passage: versesArray[0]
-        }
-    } catch (err) {
-        console.error(err);
+        citationsArray.push(citation)
+    })
+
+    return {
+        citation: citationsArray[0],
+        passage: versesArray[0],
+        url: URL
     }
+
 }
