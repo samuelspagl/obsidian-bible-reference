@@ -4,21 +4,7 @@
 // baseline for the plugin.
 import * as cheerio from 'cheerio';
 import { requestUrl, RequestUrlParam } from 'obsidian';
-
-interface bookType {
-    book: String;
-    aliases: Array<String>;
-    chapters: Number;
-}
-
-class ApiError{
-    code: number
-    message: string
-    constructor(code: number, message: string){
-        this.code = code
-        this.message = message
-    }
-}
+import { ApiError } from './Error';
 
 export async function getVerse( book: string, chapter: string, verses: string, version: string = "NIV") {
     const baseURL = "https://www.bible.com/bible";
