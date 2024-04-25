@@ -3,6 +3,7 @@ import { BIBLE_INFO } from "src/utils/Const";
 import { format } from "util";
 import { getVerse } from "src/youversion-api/verse";
 import { BibleBook, BibleReferenceSettings } from "src/models/Models";
+import { format_variables } from "src/utils/Helper";
 
 export class BibleVerseSuggestionFirstWindow extends SuggestModal<BibleBook> {
 	editor: Editor;
@@ -126,6 +127,7 @@ class BibleVerseSuggestionThirdWindow extends SuggestModal<string> {
 	}
 
 	getSuggestions(query: string): string[] | Promise<string[]> {
+        if (query.match("/"))
 		return [query];
 	}
 
@@ -152,13 +154,14 @@ class BibleVerseSuggestionThirdWindow extends SuggestModal<string> {
 			.replace(" ", "");
 		console.log(`bookTag is "${bookTag}`);
 		console.log(`template: "${this.template}"`);
-		const text = format(this.template, {
+		const text = format_variables(this.template, {
 			book: this.book.book[this.settings.language],
 			bookTag: bookTag,
 			chapter: this.chapter,
 			verse: value,
 			verses: verses.passage,
-			bibleTag: this.settings.standardBible
+			bibleTag: this.settings.standardBible,
+            url: verses.url
 		});
 		this.editor.replaceSelection(text);
 	}

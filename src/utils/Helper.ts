@@ -1,4 +1,4 @@
-export function format(text: string, args: { [key: string]: string }) {
+export function format_variables(text: string, args: { [key: string]: string }) {
 	for (const attr in args) {
 		const rgx = new RegExp("\\{" + attr + "}", "g");
 		text = text.replace(rgx, args[attr]);
