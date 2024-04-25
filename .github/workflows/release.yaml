@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir dist
           cp manifest.json dist/manifest.json
-          cp main.json dist/main.json
+          cp main.js dist/main.js
           cp styles.css
 
       - name: Create release
