@@ -2,6 +2,7 @@ import { SuggestModal, Editor, App } from "obsidian";
 import { BIBLE_INFO } from "src/utils/Const";
 import { format } from "util";
 import { getVerse } from "src/youversion-api/verse";
+import { BibleBook, BibleReferenceSettings } from "src/models/Models";
 
 export class BibleVerseSuggestionFirstWindow extends SuggestModal<BibleBook> {
 	editor: Editor;

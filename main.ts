@@ -1,21 +1,13 @@
 import {
-	App,
 	Editor,
-	ItemView,
 	Notice,
 	Plugin,
-	PluginSettingTab,
-	Setting,
-	SuggestModal,
-	TextAreaComponent,
 	WorkspaceLeaf,
 } from "obsidian";
 import { ExampleView } from "src/itemViews/BibleReferencingView";
 import { BibleVerseSuggestionFirstWindow } from "src/modals/BibleVersesReferenceModal";
+import { BibleReferenceSettings } from "src/models/Models";
 import { BibleReferencingSettings } from "src/settings/SettingsView";
-import { BIBLE_INFO } from "src/utils/Const";
-
-import { getVerse } from "src/youversion-api/verse";
 // Remember to rename these classes and interfaces!
 
 export const VIEW_TYPE_EXAMPLE = "example-view";
@@ -92,11 +84,13 @@ export default class BibleReference extends Plugin {
 			// Our view could not be found in the workspace, create a new leaf
 			// in the right sidebar for it
 			leaf = workspace.getRightLeaf(false);
-			await leaf.setViewState({ type: VIEW_TYPE_EXAMPLE, active: true });
+			await leaf?.setViewState({ type: VIEW_TYPE_EXAMPLE, active: true });
 		}
 
 		// "Reveal" the leaf in case it is in a collapsed sidebar
-		workspace.revealLeaf(leaf);
+		if (leaf){
+			workspace.revealLeaf(leaf);
+		}
 	}
 
 	async loadSettings() {

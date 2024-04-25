@@ -1,5 +1,6 @@
 import { VIEW_TYPE_EXAMPLE } from "main";
 import { ItemView, Notice, WorkspaceLeaf } from "obsidian";
+import { BibleReferenceSettings, BibleBook } from "src/models/Models";
 import { BIBLE_INFO } from "src/utils/Const";
 import { getVerse } from "src/youversion-api/verse";
 
@@ -55,7 +56,7 @@ export class ExampleView extends ItemView {
         selectedChapterDiv.addClass("bb-rf-hide-div")
         selectedChapterDiv.onClickEvent((ev:MouseEvent)=>{
             selectedChapterDiv.addClass("bb-rf-hide-div")
-            unhideSelectedElements(chapterArray, Object.keys(this.selectedBook?.chapters).length)     
+            unhideSelectedElements(chapterArray, Object.keys(this.selectedBook!.chapters).length)     
             hideAllElements(versesArray)
             this.selectedStartVerse = null
             this.selectedEndVerse = null
@@ -67,7 +68,7 @@ export class ExampleView extends ItemView {
         selectedVersesDiv.onClickEvent((ev:MouseEvent)=>{
             this.selectedStartVerse = null
             this.selectedEndVerse = null
-            unhideSelectedElements(versesArray,parseInt(this.selectedBook.chapters[`${this.selectedChapter}`]))
+            unhideSelectedElements(versesArray,parseInt(this.selectedBook!.chapters[`${this.selectedChapter}`]))
             selectedVersesDiv.setText("🔛")
         })
 
@@ -80,7 +81,7 @@ export class ExampleView extends ItemView {
                 .onClickEvent((ev: MouseEvent) => {
                     bibleBookView.addClass("bb-rf-hide-div")
                     this.selectedBook = BIBLE_INFO[a]
-                    unhideSelectedElements(chapterArray, Object.keys(this.selectedBook.chapters).length)
+                    unhideSelectedElements(chapterArray, Object.keys(this.selectedBook!.chapters).length)
                     
                     selectedBookDiv.setText(`📙 ${bookName}`)
                     selectedBookDiv.removeClass("bb-rf-hide-div")
@@ -97,7 +98,7 @@ export class ExampleView extends ItemView {
                 this.selectedChapter = x+1
                 selectedChapterDiv.setText(`📖 ${x+1}`)
                 selectedChapterDiv.removeClass("bb-rf-hide-div")
-                unhideSelectedElements(versesArray,parseInt(this.selectedBook.chapters[`${this.selectedChapter}`]))
+                unhideSelectedElements(versesArray,parseInt(this.selectedBook!.chapters[`${this.selectedChapter}`]))
                 selectedVersesDiv.removeClass("bb-rf-hide-div")
             })
             chapterArray.push(chButton)
@@ -117,7 +118,7 @@ export class ExampleView extends ItemView {
                     this.selectedEndVerse = x+1
                     hideAllElements(versesArray)
                     const verse = await getVerse(
-                        this.selectedBook.aliases[0],
+                        this.selectedBook!.aliases[0],
                         `${this.selectedChapter}`, 
                         `${this.selectedStartVerse}-${this.selectedEndVerse}`, 
                         this.selectedBible
