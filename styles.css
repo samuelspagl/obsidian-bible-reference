@@ -6,20 +6,40 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+
+.bible-referencing-view-content{
+    background-color: var(--nav-item-background-hover);
+    border-radius: var(--radius-m);
+    padding: 10px;
+}
+
+.selected-div{
+    display: flex;
+    gap: 4px
+}
+
 .bible-referencing-view{
     gap: 4px;
 }
 
 .on-select-hover{
-    background: var(--interactive-normal) !important;
+    background-color: var(--interactive-normal);
 }
 
 .selected-button{
     border-width: 0px !important;
     background-color: var(--nav-item-background-hover);
-    padding: 3px;
+    padding: 5px 15px;
     text-align: center;
     border-radius: var(--radius-s);
+}
+
+.selected-button:hover{
+    background-color: var(--interactive-normal);
+}
+
+.selected-button-book{
+    flex-grow: 2;
 }
 
 .selected-button:hover{

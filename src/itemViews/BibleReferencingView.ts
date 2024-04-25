@@ -4,8 +4,20 @@ import { BIBLE_INFO } from "src/utils/Const";
 import { getVerse } from "src/youversion-api/verse";
 
 export class ExampleView extends ItemView {
-    constructor(leaf: WorkspaceLeaf) {
+    settings: BibleReferenceSettings
+
+    selectedBible: string
+
+    selectedBook: BibleBook|null = null
+    selectedChapter: number | null = null
+    selectedStartVerse: number | null = null
+    selectedEndVerse: number | null = null
+
+    constructor(leaf: WorkspaceLeaf, settings: BibleReferenceSettings) {
         super(leaf);
+        this.settings = settings
+        this.selectedBible = settings.standardBible
+
     }
 
     getViewType() {
@@ -27,15 +39,10 @@ export class ExampleView extends ItemView {
         const view = container.createEl("div")
         view.addClass("bible-referencing-view");
 
-        // Essential variables
-        var selectedBook: BibleBook
-        var selectedChapter: number
-        var startVerse: number|null = null
-        var endVerse: number|null = null
-
         view.createEl("h4", { text: "The Bible" });
-
-        const selectedBookDiv = view.createEl('div', {cls:"selected-button"})
+        
+        const selectedDiv = view.createEl("div", {cls: "selected-div"})
+        const selectedBookDiv = selectedDiv.createEl('div', {cls:"selected-button selected-button-book"})
         selectedBookDiv.addClass("bb-rf-hide-div")
         selectedBookDiv.onClickEvent((ev:MouseEvent)=>{
             selectedChapterDiv.addClass("bb-rf-hide-div")
@@ -44,23 +51,23 @@ export class ExampleView extends ItemView {
             hideAllElements(chapterArray)
             hideAllElements(versesArray)
         })
-        const selectedChapterDiv = view.createEl('div', {cls:"selected-button"})
+        const selectedChapterDiv = selectedDiv.createEl('div', {cls:"selected-button"})
         selectedChapterDiv.addClass("bb-rf-hide-div")
         selectedChapterDiv.onClickEvent((ev:MouseEvent)=>{
             selectedChapterDiv.addClass("bb-rf-hide-div")
-            unhideSelectedElements(chapterArray, Object.keys(selectedBook.chapters).length)     
+            unhideSelectedElements(chapterArray, Object.keys(this.selectedBook?.chapters).length)     
             hideAllElements(versesArray)
-            startVerse = null
-            endVerse = null
+            this.selectedStartVerse = null
+            this.selectedEndVerse = null
             selectedVersesDiv.setText("🔛")
             selectedVersesDiv.addClass("bb-rf-hide-div")
         })
-        const selectedVersesDiv = view.createEl('div', {cls:"selected-button", text:"🔛"})
+        const selectedVersesDiv = selectedDiv.createEl('div', {cls:"selected-button", text:"🔛"})
         selectedVersesDiv.addClass("bb-rf-hide-div")
         selectedVersesDiv.onClickEvent((ev:MouseEvent)=>{
-            startVerse = null
-            endVerse = null
-            unhideSelectedElements(versesArray,parseInt(selectedBook.chapters[`${selectedChapter}`]))
+            this.selectedStartVerse = null
+            this.selectedEndVerse = null
+            unhideSelectedElements(versesArray,parseInt(this.selectedBook.chapters[`${this.selectedChapter}`]))
             selectedVersesDiv.setText("🔛")
         })
 
@@ -72,10 +79,10 @@ export class ExampleView extends ItemView {
                 createEl('div', { cls: "tree-item-self is-clickable has-focus book-button", text: bookName })
                 .onClickEvent((ev: MouseEvent) => {
                     bibleBookView.addClass("bb-rf-hide-div")
-                    selectedBook = BIBLE_INFO[a]
-                    unhideSelectedElements(chapterArray, Object.keys(selectedBook.chapters).length)
+                    this.selectedBook = BIBLE_INFO[a]
+                    unhideSelectedElements(chapterArray, Object.keys(this.selectedBook.chapters).length)
                     
-                    selectedBookDiv.setText(`${bookName}`)
+                    selectedBookDiv.setText(`📙 ${bookName}`)
                     selectedBookDiv.removeClass("bb-rf-hide-div")
                 })
         }
@@ -87,10 +94,10 @@ export class ExampleView extends ItemView {
             const chButton = chapterView.createEl('div', { cls: "is-clickable has-focus chapter-button", text: `${x + 1}` })
             chButton.onClickEvent((ev:MouseEvent)=> {
                 hideAllElements(chapterArray)
-                selectedChapter = x+1
-                selectedChapterDiv.setText(`${x+1}`)
+                this.selectedChapter = x+1
+                selectedChapterDiv.setText(`📖 ${x+1}`)
                 selectedChapterDiv.removeClass("bb-rf-hide-div")
-                unhideSelectedElements(versesArray,parseInt(selectedBook.chapters[`${selectedChapter}`]))
+                unhideSelectedElements(versesArray,parseInt(this.selectedBook.chapters[`${this.selectedChapter}`]))
                 selectedVersesDiv.removeClass("bb-rf-hide-div")
             })
             chapterArray.push(chButton)
@@ -104,29 +111,34 @@ export class ExampleView extends ItemView {
         for (const x of Array(176).keys()) {
             const chButton = versesView.createEl('div', { cls: "is-clickable has-focus chapter-button", text: `${x + 1}`})
             chButton.onClickEvent(async (ev:MouseEvent)=> {
-                if (startVerse == null || startVerse>(x+1)){
-                    startVerse = x+1
+                if (this.selectedStartVerse == null || this.selectedStartVerse>(x+1)){
+                    this.selectedStartVerse = x+1
                 }else{
-                    endVerse = x+1
+                    this.selectedEndVerse = x+1
                     hideAllElements(versesArray)
-                    const verse = await getVerse(selectedBook.aliases[0], `${selectedChapter}`, `${startVerse}-${endVerse}`)
+                    const verse = await getVerse(
+                        this.selectedBook.aliases[0],
+                        `${this.selectedChapter}`, 
+                        `${this.selectedStartVerse}-${this.selectedEndVerse}`, 
+                        this.selectedBible
+                    )
                     versesElement.setText(verse.passage)
                 }
-                selectedVersesDiv.setText(`${startVerse} 🔛 ${endVerse}`)
+                selectedVersesDiv.setText(`${this.selectedStartVerse} 🔛 ${this.selectedEndVerse}`)
             })
             chButton.onmouseover = () => {
-                if (!(startVerse == null || startVerse>(x+1))){
-                    const amount = (x+1)-startVerse
+                if (!(this.selectedStartVerse == null || this.selectedStartVerse>(x+1))){
+                    const amount = (x+1)- this.selectedStartVerse
                     for (const a of Array(amount).keys()){
-                        versesArray[a+startVerse-1].addClass("on-select-hover")
+                        versesArray[a+this.selectedStartVerse-1].addClass("on-select-hover")
                     }
                 }
             }
             chButton.onmouseleave = () =>{
-                if (!(startVerse == null || startVerse>(x+1))){
-                    const amount = (x+1)-startVerse
+                if (!(this.selectedStartVerse == null || this.selectedStartVerse>(x+1))){
+                    const amount = (x+1)-this.selectedStartVerse
                     for (const a of Array(amount).keys()){
-                        versesArray[a+startVerse].removeClass("on-select-hover")
+                        versesArray[a+this.selectedStartVerse].removeClass("on-select-hover")
                     }
                 }
             }
@@ -135,8 +147,8 @@ export class ExampleView extends ItemView {
         hideAllElements(versesArray)
 
 
-        const contentDiv = view.createEl('div')
-        const versesElement = view.createSpan("")
+        const contentDiv = view.createEl('div', {cls: "bible-referencing-view-content"})
+        const versesElement = contentDiv.createSpan("")
     }
 
 

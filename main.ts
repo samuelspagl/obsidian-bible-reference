@@ -36,7 +36,7 @@ export default class BibleReference extends Plugin {
 
 		this.registerView(
 			VIEW_TYPE_EXAMPLE,
-			(leaf) => new ExampleView(leaf)
+			(leaf) => new ExampleView(leaf, this.settings)
 		);
 
 		this.addRibbonIcon("church", "Activate view", () => {

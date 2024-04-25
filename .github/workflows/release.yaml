@@ -22,7 +22,10 @@ jobs:
 
       - name: Copy manifest.json
         run: |
+          mkdir dist
           cp manifest.json dist/manifest.json
+          cp main.json dist/main.json
+          cp styles.css
 
       - name: Create release
         env:
