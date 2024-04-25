@@ -25,7 +25,7 @@ jobs:
           mkdir dist
           cp manifest.json dist/manifest.json
           cp main.js dist/main.js
-          cp styles.css
+          cp styles.css dist/styles.css
 
       - name: Create release
         env:
