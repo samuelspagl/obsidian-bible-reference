@@ -1,0 +1,58 @@
+{
+    "commands": {
+        "commandOpenBibleView": {
+            "en": "Open the bible referencing view",
+            "de": "Bibel Referenzen Sidebar öffnen"
+        },
+        "commandOpenBibleSelectReferenceModal": {
+            "en": "Insert bible verse",
+            "de": "Bibelvers/verse einfügen"
+        }
+    },
+    "ribbonIcons": {
+        "ribbonOpenBibleView": {
+            "en": "Open the bible referencing view",
+            "de": "Bibel Referenzen Sidebar öffnen"
+        }
+    },
+    "settings": {
+        "heading": {
+            "en": "✝️ Bible Referencing",
+            "de": "✝️ Die Bibel"
+        },
+        "createdBy": {
+            "en": "Created by",
+            "de": "Erstellt von"
+        },
+        "languageLabel": {
+            "en": "Language",
+            "de": "Sprache"
+        },
+        "languageDescription": {
+            "en": "Please choose a language for the frontend. This setting does not affect the language of the bible verses.",
+            "de": "Bitte wähle eine Sprache für die UI aus. Diese Einstellung beeinflusst die Sprache der ausgefwählten Bibel nicht."
+        },
+        "bibleLabel": {
+            "en": "Selected Bible",
+            "de": "Ausgewählte Bibel"
+        },
+        "bibleDescription": {
+            "en": "Please select a bible that you want to use for retrieving the verses.",
+            "de": "Bitte wähle eine Bibelübersetzung aus."
+        },
+        "templateLabel": {
+            "en": "Tempalte",
+            "de": "Template"
+        },
+        "templateDescription": {
+            "en": "Create your own template that will be used for inserting the text. You can use the following tags: {book} | {chapter} | {verse} | {bookTag} | {verses} | {bibleTag} | {url}",
+            "de": "Erstelle dein eigenes Template das genutzt wird um die ausgewählten Bibeltexte in deien Dokumente einzufügen. Beispieltags:{book} | {chapter} | {verse} | {bookTag} | {verses} | {bibleTag} | {url} "
+        }
+    },
+    "referencingView":{
+        "heading": {
+            "en": "The Bible",
+            "de": "Die Bibel"
+        }
+    }
+}

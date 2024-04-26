@@ -1,6 +1,6 @@
 import BibleReference from "main";
 import { PluginSettingTab, App, Setting, TextAreaComponent } from "obsidian";
-import { BIBLES_JSON } from "src/utils/Const";
+import { BIBLES_JSON, LANGUAGE } from "src/utils/Const";
 
 export class BibleReferencingSettings extends PluginSettingTab {
 	plugin: BibleReference;
@@ -15,22 +15,26 @@ export class BibleReferencingSettings extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl("h1", { text: "Bible Referencing" });
-		containerEl.createEl("p", { text: "Created by " }).createEl("a", {
+		containerEl.createEl("h1", { text: LANGUAGE.settings.heading[this.plugin.settings.language] });
+		containerEl.createEl("p", { text: LANGUAGE.settings.createdBy[this.plugin.settings.language] }).createEl("a", {
 			text: "Säm 👩🏽‍💻",
 			href: "https://github.com/samuelspagl",
 		});
 
-		new Setting(containerEl).setName("Language").addDropdown((dropDown) => {
+		new Setting(containerEl).setName(LANGUAGE.settings.languageLabel[this.plugin.settings.language])
+            .setDesc(LANGUAGE.settings.languageDescription[this.plugin.settings.language])
+            .addDropdown((dropDown) => {
 			dropDown.addOption("en", "English");
-			dropDown.addOption("de", "Deutsch");
+			dropDown.addOption("de", "German");
 			dropDown.setValue(this.plugin.settings.language);
 			dropDown.onChange(async (value) => {
 				this.plugin.settings.language = value;
 				await this.plugin.saveSettings();
 			});
 		});
-		new Setting(containerEl).setName("Bible").addDropdown((dropDown) => {
+		new Setting(containerEl).setName(LANGUAGE.settings.bibleLabel[this.plugin.settings.language])
+            .setDesc(LANGUAGE.settings.bibleDescription[this.plugin.settings.language])
+            .addDropdown((dropDown) => {
 			for (const opt in BIBLES_JSON) {
 				console.log(`${BIBLES_JSON[opt]} - ${opt}`);
 				dropDown.addOption(BIBLES_JSON[opt], opt);
@@ -50,10 +54,8 @@ export class BibleReferencingSettings extends PluginSettingTab {
 			"display: grid; grid-template-columns: 1fr;"
 		);
 		stylingTemplateSetting
-			.setName("Template")
-			.setDesc(
-				"Create your own template that will be used for inserting the text. You can use the following tags:"+
-				"{book} | {chapter} | {verse} | {bookTag} | {verses} | {bibleTag}"
+			.setName(LANGUAGE.settings.templateLabel[this.plugin.settings.language])
+			.setDesc(LANGUAGE.settings.templateDescription[this.plugin.settings.language]
 			);
 
 		const templateTextArea = new TextAreaComponent(

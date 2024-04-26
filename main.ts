@@ -1,16 +1,15 @@
 import {
 	Editor,
-	Notice,
 	Plugin,
 	WorkspaceLeaf,
 } from "obsidian";
-import { ExampleView } from "src/itemViews/BibleReferencingView";
+import { BibleReferencingView } from "src/itemViews/BibleReferencingView";
 import { BibleVerseSuggestionFirstWindow } from "src/modals/BibleVersesReferenceModal";
 import { BibleReferenceSettings } from "src/models/Models";
 import { BibleReferencingSettings } from "src/settings/SettingsView";
 // Remember to rename these classes and interfaces!
 
-export const VIEW_TYPE_EXAMPLE = "example-view";
+export const VIEW_TYPE_BIBLE_REFERENCING = "bible-referencing-view";
 
 const DEFAULT_SETTINGS: Partial<BibleReferenceSettings> = {
 	language: "en",
@@ -27,29 +26,21 @@ export default class BibleReference extends Plugin {
 		await this.loadSettings();
 
 		this.registerView(
-			VIEW_TYPE_EXAMPLE,
-			(leaf) => new ExampleView(leaf, this.settings)
+			VIEW_TYPE_BIBLE_REFERENCING,
+			(leaf) => new BibleReferencingView(leaf, this.settings)
 		);
 
-		this.addRibbonIcon("church", "Activate view", () => {
+		this.addRibbonIcon("church", "Open Bible Referencing view", () => {
 			this.activateView();
 		});
 
-		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon(
-			"dice",
-			"Sample Plugin",
-			(evt: MouseEvent) => {
-				// Called when the user clicks the icon.
-				new Notice("This is a notice!");
+		this.addCommand({
+			id: "bible-referencing-open-view",
+			name: "Open Bible Referencing View",
+			callback: ()=>{
+				this.activateView()
 			}
-		);
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass("my-plugin-ribbon-class");
-
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText("Status Bar Text");
+		})
 
 		this.addCommand({
 			id: "bible-referencing-modal",
@@ -75,7 +66,7 @@ export default class BibleReference extends Plugin {
 		const { workspace } = this.app;
 
 		let leaf: WorkspaceLeaf | null = null;
-		const leaves = workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE);
+		const leaves = workspace.getLeavesOfType(VIEW_TYPE_BIBLE_REFERENCING);
 
 		if (leaves.length > 0) {
 			// A leaf with our view already exists, use that
@@ -84,7 +75,7 @@ export default class BibleReference extends Plugin {
 			// Our view could not be found in the workspace, create a new leaf
 			// in the right sidebar for it
 			leaf = workspace.getRightLeaf(false);
-			await leaf?.setViewState({ type: VIEW_TYPE_EXAMPLE, active: true });
+			await leaf?.setViewState({ type: VIEW_TYPE_BIBLE_REFERENCING, active: true });
 		}
 
 		// "Reveal" the leaf in case it is in a collapsed sidebar

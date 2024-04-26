@@ -1,10 +1,10 @@
-import { VIEW_TYPE_EXAMPLE } from "main";
+import { VIEW_TYPE_BIBLE_REFERENCING } from "main";
 import { ItemView, Notice, WorkspaceLeaf } from "obsidian";
 import { BibleReferenceSettings, BibleBook } from "src/models/Models";
 import { BIBLE_INFO } from "src/utils/Const";
 import { getVerse } from "src/youversion-api/verse";
 
-export class ExampleView extends ItemView {
+export class BibleReferencingView extends ItemView {
     settings: BibleReferenceSettings
 
     selectedBible: string
@@ -22,11 +22,11 @@ export class ExampleView extends ItemView {
     }
 
     getViewType() {
-        return VIEW_TYPE_EXAMPLE;
+        return VIEW_TYPE_BIBLE_REFERENCING;
     }
 
     getDisplayText() {
-        return "Example view";
+        return "Bible Referencing View";
     }
 
     getIcon(): string {
@@ -51,6 +51,7 @@ export class ExampleView extends ItemView {
             bibleBookView.removeClass("bb-rf-hide-div")
             hideAllElements(chapterArray)
             hideAllElements(versesArray)
+            contentDiv.addClass('bb-rf-hide-div')
         })
         const selectedChapterDiv = selectedDiv.createEl('div', {cls:"selected-button"})
         selectedChapterDiv.addClass("bb-rf-hide-div")
@@ -62,6 +63,7 @@ export class ExampleView extends ItemView {
             this.selectedEndVerse = null
             selectedVersesDiv.setText("🔛")
             selectedVersesDiv.addClass("bb-rf-hide-div")
+            contentDiv.addClass('bb-rf-hide-div')
         })
         const selectedVersesDiv = selectedDiv.createEl('div', {cls:"selected-button", text:"🔛"})
         selectedVersesDiv.addClass("bb-rf-hide-div")
@@ -70,6 +72,7 @@ export class ExampleView extends ItemView {
             this.selectedEndVerse = null
             unhideSelectedElements(versesArray,parseInt(this.selectedBook!.chapters[`${this.selectedChapter}`]))
             selectedVersesDiv.setText("🔛")
+            contentDiv.addClass('bb-rf-hide-div')
         })
 
         // Bible Book view
@@ -77,7 +80,7 @@ export class ExampleView extends ItemView {
         for (const a in BIBLE_INFO) {
             const bookName = BIBLE_INFO[a].book['de']
             bibleBookView.
-                createEl('div', { cls: "tree-item-self is-clickable has-focus book-button", text: bookName })
+                createEl('div', { cls: "is-clickable has-focus book-button", text: bookName })
                 .onClickEvent((ev: MouseEvent) => {
                     bibleBookView.addClass("bb-rf-hide-div")
                     this.selectedBook = BIBLE_INFO[a]
@@ -123,6 +126,7 @@ export class ExampleView extends ItemView {
                         `${this.selectedStartVerse}-${this.selectedEndVerse}`, 
                         this.selectedBible
                     )
+                    contentDiv.removeClass('bb-rf-hide-div')
                     versesElement.setText(verse.passage)
                 }
                 selectedVersesDiv.setText(`${this.selectedStartVerse} 🔛 ${this.selectedEndVerse}`)
@@ -147,9 +151,13 @@ export class ExampleView extends ItemView {
         }
         hideAllElements(versesArray)
 
-
         const contentDiv = view.createEl('div', {cls: "bible-referencing-view-content"})
+        contentDiv.addClass("bb-rf-hide-div")
         const versesElement = contentDiv.createSpan("")
+        const contentNavBar = contentDiv.createEl("div")
+        const copyButton = contentNavBar.createEl("button", {text:"copy"})
+        const bookTag = contentNavBar.createEl("a", {text:"#bookTag", cls:"tag"})
+        const bookChapter = contentNavBar.createEl("a", {text: "#bookChapterTag", cls:"tag"})
     }
 
 

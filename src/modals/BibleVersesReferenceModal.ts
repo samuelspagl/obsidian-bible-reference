@@ -127,8 +127,45 @@ class BibleVerseSuggestionThirdWindow extends SuggestModal<string> {
 	}
 
 	getSuggestions(query: string): string[] | Promise<string[]> {
-        if (query.match("/"))
-		return [query];
+        query = query.replace(" ", "")
+        const matcherSingle = query.match(/^([1-9][0-9]*)$/)
+        console.log(matcherSingle)
+        console.log(matcherSingle?.[0])
+        console.log(matcherSingle?.[1])
+        if (matcherSingle){
+            console.log("Matcher single matches")
+            return [`${query}`, "ℹ️ You can also select a range of verses with a query like eg. '1-10'."]
+        }
+
+        const matcherMinus = query.match(/^([1-9][0-9]*)-$/)
+        if (matcherMinus){
+            console.log("Matcher minus matches")
+            const firstVerse = parseInt(matcherMinus[1])
+            const amountVerses = parseInt(this.book.chapters[this.chapter])
+            if (firstVerse>amountVerses){
+                return [`This book only has ${this.book.chapters[this.chapter]} verses.`]
+            }else{
+                const suggestions:Array<string> = []
+                const amount = amountVerses-firstVerse
+                    for (const a of Array(amount).keys()){
+                        suggestions.push(`${firstVerse}-${a+firstVerse+1}`)
+                    }
+                return suggestions
+            }
+        }
+
+
+        const matcherFull = query.match(/^([1-9][0-9]*)-([1-9][0-9]*)$/)
+        if (matcherFull){
+            if (parseInt(matcherFull[1]) > parseInt(matcherFull[2])){
+                return ["Please use a correct formatting like '5' or '10-12'. The first verse cannot be greater than the second."]
+            }
+            return [query]
+        }
+        
+        const amountVerses = parseInt(this.book.chapters[this.chapter])
+        const suggestions = Array.from({length: amountVerses}, (_, i) => `${i + 1}`)
+		return suggestions;
 	}
 
 	renderSuggestion(value: string, el: HTMLElement) {

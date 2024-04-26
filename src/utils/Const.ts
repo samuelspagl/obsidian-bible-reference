@@ -5,3 +5,5 @@ export const BIBLE_INFO: BibleBook[] =
 export const BIBLES_JSON: {
 	[key: string]: string;
 } = require("../resources/versions.json");
+
+export const LANGUAGE = require("../resources/language.json")
